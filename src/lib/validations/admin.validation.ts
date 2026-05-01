@@ -23,8 +23,33 @@ export const updateGymInfoSchema = z.object({
   city: z.string().nullable().optional(),
   province: z.string().nullable().optional(),
   postalCode: z.string().nullable().optional(),
-  latitude: z.coerce.string().nullable().optional(),
-  longitude: z.coerce.string().nullable().optional(),
+  latitude: z
+    .string()
+    .nullable()
+    .optional()
+    .refine((value) => {
+      if (!value) return true;
+
+      const numberValue = Number(value);
+
+      return (
+        !Number.isNaN(numberValue) && numberValue >= -90 && numberValue <= 90
+      );
+    }, "Latitude harus berada di antara -90 sampai 90"),
+
+  longitude: z
+    .string()
+    .nullable()
+    .optional()
+    .refine((value) => {
+      if (!value) return true;
+
+      const numberValue = Number(value);
+
+      return (
+        !Number.isNaN(numberValue) && numberValue >= -180 && numberValue <= 180
+      );
+    }, "Longitude harus berada di antara -180 sampai 180"),
   logoUrl: z.string().nullable().optional(),
   faviconUrl: z.string().nullable().optional(),
   openingHours: z.record(z.string(), z.any()).nullable().optional(),
