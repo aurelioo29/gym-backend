@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import "leaflet/dist/leaflet.css";
 
 :root {
   --background: #ffffff;
@@ -23,4 +24,80 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+.ant-card-small > .ant-card-head {
+  min-height: 38px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.ant-card-small > .ant-card-body {
+  padding: 16px;
+}
+
+.ant-form-item {
+  margin-bottom: 14px;
+}
+
+.ant-form-item-label > label {
+  font-size: 12px;
+  color: #334155;
+  font-weight: 500;
+}
+
+.ant-input,
+.ant-input-affix-wrapper,
+.ant-input-number,
+.ant-picker {
+  border-radius: 8px;
+}
+
+.gym-map-picker .leaflet-container {
+  width: 100%;
+  height: 320px;
+  border-radius: 14px;
+  overflow: hidden;
+}
+
+.ant-table-wrapper .ant-table-thead > tr > th {
+  background: #f8fafc;
+  color: #334155;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.ant-table-wrapper .ant-table-tbody > tr > td {
+  vertical-align: top;
+}
+
+.ant-card {
+  border-radius: 14px;
+}
+
+.ant-input,
+.ant-input-affix-wrapper,
+.ant-select-selector,
+.ant-picker {
+  border-radius: 8px !important;
+}
+
+.logs-filter-card .ant-card-body {
+  padding: 16px;
+}
+
+.ant-table-small .ant-table-thead > tr > th {
+  font-size: 12px;
+  font-weight: 600;
+  color: #475569;
+  background: #fafafa;
+}
+
+.ant-table-small .ant-table-tbody > tr > td {
+  font-size: 12px;
+  color: #334155;
+}
+
+.ant-table-small .ant-table-tbody > tr:hover > td {
+  background: #f8fafc !important;
 }
