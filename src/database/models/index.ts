@@ -12,6 +12,7 @@ import { GymInfo } from "./gym-info.model";
 import { GeneralSetting } from "./general-setting.model";
 import { AuditLog } from "./audit-log.model";
 import { ActivityLog } from "./activity-log.model";
+import { Notification } from "./notification.model";
 
 Role.initModel(sequelize);
 Permission.initModel(sequelize);
@@ -25,6 +26,7 @@ GymInfo.initModel(sequelize);
 GeneralSetting.initModel(sequelize);
 AuditLog.initModel(sequelize);
 ActivityLog.initModel(sequelize);
+Notification.initModel(sequelize);
 
 /**
  * Role ↔ User
@@ -146,6 +148,29 @@ ActivityLog.belongsTo(User, {
   as: "user",
 });
 
+/**
+ * User ↔ Notifications
+ */
+User.hasMany(Notification, {
+  foreignKey: "recipientUserId",
+  as: "notifications",
+});
+
+Notification.belongsTo(User, {
+  foreignKey: "recipientUserId",
+  as: "recipient",
+});
+
+User.hasMany(Notification, {
+  foreignKey: "actorUserId",
+  as: "actedNotifications",
+});
+
+Notification.belongsTo(User, {
+  foreignKey: "actorUserId",
+  as: "actor",
+});
+
 export {
   sequelize,
   Role,
@@ -160,4 +185,5 @@ export {
   GeneralSetting,
   AuditLog,
   ActivityLog,
+  Notification,
 };
