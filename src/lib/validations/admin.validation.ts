@@ -152,3 +152,52 @@ export const updateTrainerAssignmentSchema = z
       path: ["endDate"],
     },
   );
+
+export const createMembershipPlanSchema = z.object({
+  name: z.string().min(2, "Nama plan minimal 2 karakter"),
+  slug: z.string().min(2).optional(),
+  description: z.string().nullable().optional(),
+
+  price: z.coerce.number().min(0, "Harga tidak boleh negatif"),
+
+  durationDays: z.coerce
+    .number()
+    .int("Duration days harus integer")
+    .min(1, "Duration minimal 1 hari"),
+
+  maxBookingsPerMonth: z.coerce
+    .number()
+    .int("Max bookings harus integer")
+    .min(0, "Max bookings tidak boleh negatif")
+    .nullable()
+    .optional(),
+
+  benefits: z.array(z.string()).nullable().optional(),
+
+  isActive: z.boolean().optional(),
+});
+
+export const updateMembershipPlanSchema = z.object({
+  name: z.string().min(2, "Nama plan minimal 2 karakter").optional(),
+  slug: z.string().min(2).optional(),
+  description: z.string().nullable().optional(),
+
+  price: z.coerce.number().min(0, "Harga tidak boleh negatif").optional(),
+
+  durationDays: z.coerce
+    .number()
+    .int("Duration days harus integer")
+    .min(1, "Duration minimal 1 hari")
+    .optional(),
+
+  maxBookingsPerMonth: z.coerce
+    .number()
+    .int("Max bookings harus integer")
+    .min(0, "Max bookings tidak boleh negatif")
+    .nullable()
+    .optional(),
+
+  benefits: z.array(z.string()).nullable().optional(),
+
+  isActive: z.boolean().optional(),
+});

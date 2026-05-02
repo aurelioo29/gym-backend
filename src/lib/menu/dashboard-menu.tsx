@@ -12,6 +12,7 @@ import {
   SettingOutlined,
   TeamOutlined,
   UserOutlined,
+  CreditCardOutlined,
 } from "@ant-design/icons";
 import type { MenuProps } from "antd";
 import Link from "next/link";
@@ -83,6 +84,22 @@ export const dashboardSideMenuItems: DashboardMenuItem[] = [
         href: "/dashboard/permissions",
         icon: <FileProtectOutlined />,
         permission: "permissions.view",
+      },
+    ],
+  },
+
+  {
+    key: "membership-management",
+    label: "Membership",
+    icon: <CreditCardOutlined />,
+    permission: "membership_plans.view",
+    children: [
+      {
+        key: "/dashboard/membership-plans",
+        label: "Membership Plans",
+        href: "/dashboard/membership-plans",
+        icon: <CreditCardOutlined />,
+        permission: "membership_plans.view",
       },
     ],
   },
@@ -252,6 +269,10 @@ export function getDefaultOpenKeys(pathname: string) {
 
   if (pathname.startsWith("/dashboard/logs")) {
     return ["logs"];
+  }
+
+  if (pathname.startsWith("/dashboard/membership-plans")) {
+    return ["membership-management"];
   }
 
   return [];
