@@ -3,9 +3,11 @@ import {
   AuditOutlined,
   BellOutlined,
   FileProtectOutlined,
+  FolderOutlined,
   HomeOutlined,
   IdcardOutlined,
   NotificationOutlined,
+  ReadOutlined,
   SafetyCertificateOutlined,
   SettingOutlined,
   TeamOutlined,
@@ -23,21 +25,6 @@ export type DashboardMenuItem = {
   children?: DashboardMenuItem[];
 };
 
-export const dashboardTopMenuItems: MenuProps["items"] = [
-  {
-    key: "/dashboard",
-    label: <Link href="/dashboard">Dashboard</Link>,
-  },
-  {
-    key: "/dashboard/users",
-    label: <Link href="/dashboard/users">Users</Link>,
-  },
-  {
-    key: "/dashboard/settings/gym-info",
-    label: <Link href="/dashboard/settings/gym-info">Settings</Link>,
-  },
-];
-
 export const dashboardSideMenuItems: DashboardMenuItem[] = [
   {
     key: "/dashboard",
@@ -46,6 +33,7 @@ export const dashboardSideMenuItems: DashboardMenuItem[] = [
     icon: <HomeOutlined />,
     permission: "dashboard.view",
   },
+
   {
     key: "user-management",
     label: "User Management",
@@ -68,6 +56,7 @@ export const dashboardSideMenuItems: DashboardMenuItem[] = [
       },
     ],
   },
+
   {
     key: "access-control",
     label: "Access Control",
@@ -90,6 +79,30 @@ export const dashboardSideMenuItems: DashboardMenuItem[] = [
       },
     ],
   },
+
+  {
+    key: "content-management",
+    label: "Content Management",
+    icon: <ReadOutlined />,
+    permission: "news.view",
+    children: [
+      {
+        key: "/dashboard/news-categories",
+        label: "News Categories",
+        href: "/dashboard/news-categories",
+        icon: <FolderOutlined />,
+        permission: "news_categories.view",
+      },
+      {
+        key: "/dashboard/news",
+        label: "News",
+        href: "/dashboard/news",
+        icon: <ReadOutlined />,
+        permission: "news.view",
+      },
+    ],
+  },
+
   {
     key: "settings",
     label: "Settings",
@@ -112,12 +125,14 @@ export const dashboardSideMenuItems: DashboardMenuItem[] = [
       },
     ],
   },
+
   {
     key: "/dashboard/notifications",
     label: "Notifications",
     href: "/dashboard/notifications",
     icon: <BellOutlined />,
   },
+
   {
     key: "logs",
     label: "Logs",
@@ -144,6 +159,7 @@ export const dashboardSideMenuItems: DashboardMenuItem[] = [
 
 function hasPermission(item: DashboardMenuItem, permissions: string[]) {
   if (!item.permission) return true;
+
   return permissions.includes(item.permission);
 }
 
@@ -201,12 +217,34 @@ export function toAntdSideMenuItems(
 }
 
 export function getDefaultOpenKeys(pathname: string) {
-  if (pathname.startsWith("/dashboard/users")) return ["user-management"];
-  if (pathname.startsWith("/dashboard/trainers")) return ["user-management"];
-  if (pathname.startsWith("/dashboard/roles")) return ["access-control"];
-  if (pathname.startsWith("/dashboard/permissions")) return ["access-control"];
-  if (pathname.startsWith("/dashboard/settings")) return ["settings"];
-  if (pathname.startsWith("/dashboard/logs")) return ["logs"];
+  if (
+    pathname.startsWith("/dashboard/users") ||
+    pathname.startsWith("/dashboard/trainers")
+  ) {
+    return ["user-management"];
+  }
+
+  if (
+    pathname.startsWith("/dashboard/roles") ||
+    pathname.startsWith("/dashboard/permissions")
+  ) {
+    return ["access-control"];
+  }
+
+  if (
+    pathname.startsWith("/dashboard/news") ||
+    pathname.startsWith("/dashboard/news-categories")
+  ) {
+    return ["content-management"];
+  }
+
+  if (pathname.startsWith("/dashboard/settings")) {
+    return ["settings"];
+  }
+
+  if (pathname.startsWith("/dashboard/logs")) {
+    return ["logs"];
+  }
 
   return [];
 }

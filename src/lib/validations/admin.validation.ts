@@ -68,3 +68,43 @@ export const updateGeneralSettingSchema = z.object({
     z.null(),
   ]),
 });
+
+export const createNewsCategorySchema = z.object({
+  name: z.string().min(2, "Nama kategori minimal 2 karakter"),
+  slug: z.string().min(2).optional(),
+  description: z.string().nullable().optional(),
+  isActive: z.boolean().optional(),
+});
+
+export const updateNewsCategorySchema = z.object({
+  name: z.string().min(2, "Nama kategori minimal 2 karakter").optional(),
+  slug: z.string().min(2).optional(),
+  description: z.string().nullable().optional(),
+  isActive: z.boolean().optional(),
+});
+
+export const createNewsSchema = z.object({
+  categoryId: z.string().uuid("Category ID tidak valid"),
+  title: z.string().min(3, "Title minimal 3 karakter"),
+  slug: z.string().min(3).optional(),
+  excerpt: z.string().nullable().optional(),
+  content: z.string().min(10, "Content minimal 10 karakter"),
+  thumbnailUrl: z.string().nullable().optional(),
+  status: z.enum(["DRAFT", "PUBLISHED", "ARCHIVED"]).optional(),
+  isFeatured: z.boolean().optional(),
+  seoTitle: z.string().nullable().optional(),
+  seoDescription: z.string().nullable().optional(),
+});
+
+export const updateNewsSchema = z.object({
+  categoryId: z.string().uuid("Category ID tidak valid").optional(),
+  title: z.string().min(3, "Title minimal 3 karakter").optional(),
+  slug: z.string().min(3).optional(),
+  excerpt: z.string().nullable().optional(),
+  content: z.string().min(10, "Content minimal 10 karakter").optional(),
+  thumbnailUrl: z.string().nullable().optional(),
+  status: z.enum(["DRAFT", "PUBLISHED", "ARCHIVED"]).optional(),
+  isFeatured: z.boolean().optional(),
+  seoTitle: z.string().nullable().optional(),
+  seoDescription: z.string().nullable().optional(),
+});
