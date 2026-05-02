@@ -392,3 +392,80 @@ export const updateBookingSchema = z.object({
 export const cancelBookingSchema = z.object({
   cancelReason: z.string().min(3, "Cancel reason minimal 3 karakter"),
 });
+
+export const createPushNotificationSchema = z
+  .object({
+    userId: z.string().uuid("User ID tidak valid").nullable().optional(),
+    serviceId: z.string().uuid("Service ID tidak valid").nullable().optional(),
+
+    imageUrl: z.string().nullable().optional(),
+
+    title: z.string().min(2, "Title minimal 2 karakter"),
+    description: z.string().nullable().optional(),
+
+    targetType: z.enum(["ALL", "CUSTOMER", "TRAINER", "SPECIFIC_USER"]),
+
+    status: z.enum(["DRAFT", "SCHEDULED", "PUBLISHED", "CANCELLED"]).optional(),
+
+    scheduledAt: z.coerce.date().nullable().optional(),
+  })
+  .refine(
+    (value) => {
+      if (value.targetType !== "SPECIFIC_USER") return true;
+
+      return Boolean(value.userId);
+    },
+    {
+      message: "User wajib dipilih untuk target specific user",
+      path: ["userId"],
+    },
+  )
+  .refine(
+    (value) => {
+      if (value.status !== "SCHEDULED") return true;
+
+      return Boolean(value.scheduledAt);
+    },
+    {
+      message: "Jadwal terbit wajib diisi untuk scheduled notification",
+      path: ["scheduledAt"],
+    },
+  );
+
+export const updatePushNotificationSchema = z
+  .object({
+    userId: z.string().uuid("User ID tidak valid").nullable().optional(),
+    serviceId: z.string().uuid("Service ID tidak valid").nullable().optional(),
+
+    imageUrl: z.string().nullable().optional(),
+
+    title: z.string().min(2, "Title minimal 2 karakter").optional(),
+    description: z.string().nullable().optional(),
+
+    targetType: z
+      .enum(["ALL", "CUSTOMER", "TRAINER", "SPECIFIC_USER"])
+      .optional(),
+
+    status: z.enum(["DRAFT", "SCHEDULED", "PUBLISHED", "CANCELLED"]).optional(),
+
+    scheduledAt: z.coerce.date().nullable().optional(),
+  })
+  .refine(
+    (value) => {
+      if (value.targetType !== "SPECIFIC_USER") return true;
+
+      return Boolean(value.userId);
+    },
+    {
+      message: "User wajib dipilih untuk target specific user",
+      path: ["userId"],
+    },
+  );
+
+export const publishPushNotificationSchema = z.object({
+  publishedAt: z.coerce.date().nullable().optional(),
+});
+
+export const cancelPushNotificationSchema = z.object({
+  reason: z.string().nullable().optional(),
+});

@@ -21,6 +21,7 @@ import { Service } from "./service.model";
 import { MemberMembership } from "./member-membership.model";
 import { ServiceSchedule } from "./service-schedule.model";
 import { Booking } from "./booking.model";
+import { PushNotification } from "./push-notification.model";
 
 Role.initModel(sequelize);
 Permission.initModel(sequelize);
@@ -43,6 +44,7 @@ MemberMembership.initModel(sequelize);
 Service.initModel(sequelize);
 ServiceSchedule.initModel(sequelize);
 Booking.initModel(sequelize);
+PushNotification.initModel(sequelize);
 
 /**
  * Role ↔ User
@@ -368,6 +370,40 @@ Booking.belongsTo(ServiceSchedule, {
   as: "serviceSchedule",
 });
 
+/**
+ * Push Notification ↔ User & Service
+ */
+
+User.hasMany(PushNotification, {
+  foreignKey: "userId",
+  as: "pushNotifications",
+});
+
+PushNotification.belongsTo(User, {
+  foreignKey: "userId",
+  as: "user",
+});
+
+User.hasMany(PushNotification, {
+  foreignKey: "createdBy",
+  as: "createdPushNotifications",
+});
+
+PushNotification.belongsTo(User, {
+  foreignKey: "createdBy",
+  as: "createdByUser",
+});
+
+Service.hasMany(PushNotification, {
+  foreignKey: "serviceId",
+  as: "pushNotifications",
+});
+
+PushNotification.belongsTo(Service, {
+  foreignKey: "serviceId",
+  as: "service",
+});
+
 export {
   sequelize,
   Role,
@@ -391,4 +427,5 @@ export {
   Service,
   ServiceSchedule,
   Booking,
+  PushNotification,
 };

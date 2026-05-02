@@ -71,7 +71,7 @@ export async function POST(req: Request) {
 
     await createActivityLog({
       userId: user.id,
-      activity: ActivityType.MOBILE_LOGIN,
+      activity: ActivityType.MOBILE_LOGIN_SUCCESS,
       description: "User logged in from mobile app",
       metadata: {
         role: role.slug,

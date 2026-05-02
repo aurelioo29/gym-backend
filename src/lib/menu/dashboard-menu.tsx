@@ -14,6 +14,7 @@ import {
   UserOutlined,
   CreditCardOutlined,
   CalendarOutlined,
+  SendOutlined,
 } from "@ant-design/icons";
 import type { MenuProps } from "antd";
 import Link from "next/link";
@@ -193,6 +194,15 @@ export const dashboardSideMenuItems: DashboardMenuItem[] = [
     label: "Notifications",
     href: "/dashboard/notifications",
     icon: <BellOutlined />,
+    permission: "notifications.view",
+  },
+
+  {
+    key: "/dashboard/push-notifications",
+    label: "Push Notifications",
+    href: "/dashboard/push-notifications",
+    icon: <SendOutlined />,
+    permission: "push_notifications.view",
   },
 
   {
