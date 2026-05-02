@@ -15,6 +15,7 @@ import { ActivityLog } from "./activity-log.model";
 import { Notification } from "./notification.model";
 import { NewsCategory } from "./news-category.model";
 import { News } from "./news.model";
+import { TrainerAssignment } from "./trainer-assignment.model";
 
 Role.initModel(sequelize);
 Permission.initModel(sequelize);
@@ -31,6 +32,7 @@ ActivityLog.initModel(sequelize);
 Notification.initModel(sequelize);
 NewsCategory.initModel(sequelize);
 News.initModel(sequelize);
+TrainerAssignment.initModel(sequelize);
 
 /**
  * Role ↔ User
@@ -201,6 +203,39 @@ News.belongsTo(User, {
   as: "author",
 });
 
+/**
+ * User ↔ Trainer Assignment
+ */
+
+User.hasMany(TrainerAssignment, {
+  foreignKey: "customerId",
+  as: "customerAssignments",
+});
+
+User.hasMany(TrainerAssignment, {
+  foreignKey: "trainerId",
+  as: "trainerAssignments",
+});
+
+User.hasMany(TrainerAssignment, {
+  foreignKey: "assignedBy",
+  as: "assignedTrainerAssignments",
+});
+
+TrainerAssignment.belongsTo(User, {
+  foreignKey: "customerId",
+  as: "customer",
+});
+
+TrainerAssignment.belongsTo(User, {
+  foreignKey: "trainerId",
+  as: "trainer",
+});
+
+TrainerAssignment.belongsTo(User, {
+  foreignKey: "assignedBy",
+  as: "assignedByUser",
+});
 export {
   sequelize,
   Role,
@@ -218,4 +253,5 @@ export {
   Notification,
   NewsCategory,
   News,
+  TrainerAssignment,
 };
