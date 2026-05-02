@@ -17,6 +17,10 @@ import { NewsCategory } from "./news-category.model";
 import { News } from "./news.model";
 import { TrainerAssignment } from "./trainer-assignment.model";
 import { MembershipPlan } from "./membership-plan.model";
+import { Service } from "./service.model";
+import { MemberMembership } from "./member-membership.model";
+import { ServiceSchedule } from "./service-schedule.model";
+import { Booking } from "./booking.model";
 
 Role.initModel(sequelize);
 Permission.initModel(sequelize);
@@ -35,6 +39,10 @@ NewsCategory.initModel(sequelize);
 News.initModel(sequelize);
 TrainerAssignment.initModel(sequelize);
 MembershipPlan.initModel(sequelize);
+MemberMembership.initModel(sequelize);
+Service.initModel(sequelize);
+ServiceSchedule.initModel(sequelize);
+Booking.initModel(sequelize);
 
 /**
  * Role ↔ User
@@ -239,6 +247,127 @@ TrainerAssignment.belongsTo(User, {
   as: "assignedByUser",
 });
 
+/**
+ * User ↔ Member Memberships
+ */
+User.hasMany(MemberMembership, {
+  foreignKey: "userId",
+  as: "memberMemberships",
+});
+
+MemberMembership.belongsTo(User, {
+  foreignKey: "userId",
+  as: "user",
+});
+
+User.hasMany(MemberMembership, {
+  foreignKey: "createdBy",
+  as: "createdMemberMemberships",
+});
+
+MemberMembership.belongsTo(User, {
+  foreignKey: "createdBy",
+  as: "createdByUser",
+});
+
+/**
+ * Membership Plan ↔ Member Memberships
+ */
+MembershipPlan.hasMany(MemberMembership, {
+  foreignKey: "membershipPlanId",
+  as: "memberMemberships",
+});
+
+MemberMembership.belongsTo(MembershipPlan, {
+  foreignKey: "membershipPlanId",
+  as: "membershipPlan",
+});
+
+/**
+ * Service ↔ Service Schedules
+ */
+Service.hasMany(ServiceSchedule, {
+  foreignKey: "serviceId",
+  as: "schedules",
+});
+
+ServiceSchedule.belongsTo(Service, {
+  foreignKey: "serviceId",
+  as: "service",
+});
+
+/**
+ * Trainer User ↔ Service Schedules
+ */
+User.hasMany(ServiceSchedule, {
+  foreignKey: "trainerId",
+  as: "serviceSchedules",
+});
+
+ServiceSchedule.belongsTo(User, {
+  foreignKey: "trainerId",
+  as: "trainer",
+});
+
+/**
+ * Created By User ↔ Service Schedules
+ */
+User.hasMany(ServiceSchedule, {
+  foreignKey: "createdBy",
+  as: "createdServiceSchedules",
+});
+
+ServiceSchedule.belongsTo(User, {
+  foreignKey: "createdBy",
+  as: "createdByUser",
+});
+
+/**
+ * User ↔ Bookings
+ */
+User.hasMany(Booking, {
+  foreignKey: "userId",
+  as: "bookings",
+});
+
+Booking.belongsTo(User, {
+  foreignKey: "userId",
+  as: "user",
+});
+
+User.hasMany(Booking, {
+  foreignKey: "createdBy",
+  as: "createdBookings",
+});
+
+Booking.belongsTo(User, {
+  foreignKey: "createdBy",
+  as: "createdByUser",
+});
+
+User.hasMany(Booking, {
+  foreignKey: "cancelledBy",
+  as: "cancelledBookings",
+});
+
+Booking.belongsTo(User, {
+  foreignKey: "cancelledBy",
+  as: "cancelledByUser",
+});
+
+/**
+ * Service Schedule ↔ Bookings
+ */
+ServiceSchedule.hasMany(Booking, {
+  foreignKey: "serviceScheduleId",
+  as: "bookings",
+});
+
+Booking.belongsTo(ServiceSchedule, {
+  foreignKey: "serviceScheduleId",
+  as: "serviceSchedule",
+});
+
 export {
   sequelize,
   Role,
@@ -258,4 +387,8 @@ export {
   NewsCategory,
   News,
   MembershipPlan,
+  MemberMembership,
+  Service,
+  ServiceSchedule,
+  Booking,
 };
