@@ -16,6 +16,7 @@ import { Notification } from "./notification.model";
 import { NewsCategory } from "./news-category.model";
 import { News } from "./news.model";
 import { TrainerAssignment } from "./trainer-assignment.model";
+import { MembershipPlan } from "./membership-plan.model";
 
 Role.initModel(sequelize);
 Permission.initModel(sequelize);
@@ -33,6 +34,7 @@ Notification.initModel(sequelize);
 NewsCategory.initModel(sequelize);
 News.initModel(sequelize);
 TrainerAssignment.initModel(sequelize);
+MembershipPlan.initModel(sequelize);
 
 /**
  * Role ↔ User
@@ -236,6 +238,7 @@ TrainerAssignment.belongsTo(User, {
   foreignKey: "assignedBy",
   as: "assignedByUser",
 });
+
 export {
   sequelize,
   Role,
@@ -246,6 +249,7 @@ export {
   VerificationCode,
   CustomerProfile,
   TrainerProfile,
+  TrainerAssignment,
   GymInfo,
   GeneralSetting,
   AuditLog,
@@ -253,5 +257,5 @@ export {
   Notification,
   NewsCategory,
   News,
-  TrainerAssignment,
+  MembershipPlan,
 };
